@@ -609,6 +609,9 @@ bool check_fast_fail(PgSocket *client)
 	if (cnt)
 		return true;
 
+	log_info("pgbouncer cannot connect to server: enabling global PAUSE mode (to resume send SIGUSR2 or issue RESUME command)");
+	cf_pause_mode = P_PAUSE;
+
 	/* Else we fail the client. */
 	disconnect_client(client, true, "pgbouncer cannot connect to server");
 
