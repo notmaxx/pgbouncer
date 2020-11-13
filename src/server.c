@@ -478,6 +478,8 @@ bool server_proto(SBuf *sbuf, SBufEvent evtype, struct MBuf *data)
 
 	switch (evtype) {
 	case SBUF_EV_RECV_FAILED:
+		log_info("server conn crashed: enabling global PAUSE mode (to resume send SIGUSR2 or issue RESUME command)");
+		cf_pause_mode = P_PAUSE;
 		disconnect_server(server, false, "server conn crashed?");
 		break;
 	case SBUF_EV_SEND_FAILED:

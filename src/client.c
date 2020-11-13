@@ -920,6 +920,8 @@ bool client_proto(SBuf *sbuf, SBufEvent evtype, struct MBuf *data)
 		disconnect_client(client, false, "client unexpected eof");
 		break;
 	case SBUF_EV_SEND_FAILED:
+		log_info("server connection closed: enabling global PAUSE mode (to resume send SIGUSR2 or issue RESUME command)");
+		cf_pause_mode = P_PAUSE;
 		disconnect_server(client->link, false, "server connection closed");
 		break;
 	case SBUF_EV_READ:
